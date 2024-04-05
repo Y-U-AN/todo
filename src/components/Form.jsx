@@ -54,4 +54,16 @@ function Form(props) {
   );
 }
 
+function addTask(name) {
+  const id = "todo-" + nanoid();
+  geoFindMe(); // 调用 geoFindMe 来设置最后一个任务的位置
+  const newTask = {
+      id: id,
+      name: name,
+      completed: false,
+      location: { latitude: "##", longitude: "##", error: "##" },
+  };
+  setTasks([...tasks, newTask]);
+}
+
 export default Form;

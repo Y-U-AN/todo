@@ -3,6 +3,9 @@ import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import Todo from "./components/Todo";
 import { nanoid } from "nanoid";
+import MapComponent from './components/MapComponent';
+
+
 
 function usePrevious(value) {
   const ref = useRef(null);
@@ -21,14 +24,22 @@ const FILTER_MAP = {
 const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 export default function App(props) {
+
+  const [location, setLocation] = useState({ latitude: null, longitude: null });
+
+
   const geoFindMe = () => {
-    if (!navigator.geolocation) {
-    console.log("Geolocation is not supported by your browser");
-    } else {
-    console.log("Locating…");
-    navigator.geolocation.getCurrentPosition(success, error);
-    }
-    };
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      });
+    }, () => {
+      console.log("无法获取您的位置");
+    });
+  };
+  
+
     const success = (position) => {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
@@ -50,8 +61,27 @@ export default function App(props) {
     );
 
     useEffect(() => {
-      localStorage.setItem(key, JSON.stringify(stack));
-    }, [key, stack]);
+      // 检查浏览器是否支持 Geolocation API
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          // 成功回调
+          (position) => {
+            setLocation({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
+          },
+          // 错误回调
+          (error) => {
+            console.error("Error Code = " + error.code + " - " + error.message);
+            // 可以根据需要设置默认位置或处理错误
+          }
+        );
+      } else {
+        console.log('Geolocation is not supported by this browser.');
+        // 浏览器不支持 Geolocation API 时的处理
+      }
+    }, []);
 
     return [stack, setState];
   }
@@ -187,4 +217,28 @@ export default function App(props) {
     </ul>
     </div>
    );
+
+   
+   return (
+    <div>
+      <h1>Current Location</h1>
+      {location.latitude && location.longitude ? (
+        <p>
+          Latitude: {location.latitude}, Longitude: {location.longitude}
+        </p>
+      ) : (
+        <p>Locating...</p>
+      )}
+    </div>
+  );
+
+
+   return (
+    <div className="todoapp stack-large">
+      {/* ... 其他组件 ... */}
+      <MapComponent location={location} />
+      {/* ... 其他组件 ... */}
+    </div>
+  );
+  
 }

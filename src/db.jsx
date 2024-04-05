@@ -33,7 +33,10 @@ function GetPhotoSrc(id) {
   console.log("getPhotoSrc", id);
   const img = useLiveQuery(() => db.photos.where("id").equals(id).toArray());
   console.table(img);
-  if (Array.isArray(img)) return img[0].imgSrc;
+  if (Array.isArray(img) && img.length > 0) return img[0].imgSrc;
+  return null;
 }
+
+
 
 export { addPhoto, GetPhotoSrc };

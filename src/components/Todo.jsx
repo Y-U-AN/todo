@@ -83,6 +83,12 @@ function Todo(props) {
           <a href={props.location?.mapURL}>(map)</a>
           &nbsp; | &nbsp;
           <a href={props.location?.smsURL}>(sms)</a>
+          &nbsp; | &nbsp;
+          {props.location && (
+            <span>
+              (Lat: {props.location.latitude}, Long: {props.location.longitude})
+            </span>
+          )}
         </label>
       </div>
       <div className="btn-group">
@@ -130,6 +136,7 @@ function Todo(props) {
           <div>
             <ViewPhoto id={props.id} alt={props.name} />
           </div>
+
         </Popup>
 
 
@@ -156,12 +163,13 @@ const WebcamCapture = (props) => {
   const [photoSave, setPhotoSave] = useState(false);
 
   useEffect(() => {
-      if (photoSave) {
-        console.log("useEffect detected photoSave");
-        props.photoedTask(imgId);
-        setPhotoSave(false);
-      }
-    });
+    if (photoSave) {
+      console.log("useEffect detected photoSave");
+      props.photoedTask(imgId);
+      setPhotoSave(false);
+    }
+  }, [photoSave, imgId, props.photoedTask]);
+  
 
   console.log("WebCamCapture", props.id);
 
@@ -180,14 +188,28 @@ const WebcamCapture = (props) => {
       setPhotoSave(true);
     };
 
-    const cancelPhoto = (id, imgSrc) => {
-      console.log("cancelPhoto", imgSrc.length, id);
+    const cancelPhoto = () => {
+      setImgSrc(null);
     };
+    
+    const videoConstraints = {
+      width: 383,
+      height: 400,
+      facingMode: "user", // 或者 "environment" 来使用后置摄像头
+    };
+
+    
 
     return (
       <>
-        {!imgSrc && (
-          <Webcam audio={false} ref={webcamRef} screenshotFormat="image/jpeg" />
+        {!imgSrc &&  (
+          
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            videoConstraints={videoConstraints}
+          />
         )}
       {imgSrc && <img src={imgSrc} />} // After image capture show the static picture captured
       <div className="btn-group">
@@ -210,24 +232,31 @@ const WebcamCapture = (props) => {
           <button
             type="button"
             className="btn todo-cancel"
-            onClick={() => cancelPhoto(props.id, imgSrc)}>
-            Cancel
+            onClick={cancelPhoto}>Cancel
           </button>
+
         </div>
       </>);
     };
         
     const ViewPhoto = (props) => {
-    
       const photoSrc = GetPhotoSrc(props.id);
-      
+      const imageStyle = {
+        width: 383,
+        height: 400,
+      };
+    
       return (
-        <>
-          <div>
-            <img src={photoSrc} alt={props.name} />
-          </div>
-        </>
+        <div>
+          {photoSrc ? (
+            <img src={photoSrc} alt={`Photo of ${props.name}`} />
+          ) : (
+            <p>No photo available.</p>
+          )}
+        </div>
       );
     };
+    
+    
 
 export default Todo;
