@@ -193,7 +193,7 @@ const WebcamCapture = (props) => {
     };
     
     const videoConstraints = {
-      width: 383,
+      width: 100,
       height: 400,
       facingMode: "user", // 或者 "environment" 来使用后置摄像头
     };
@@ -242,7 +242,7 @@ const WebcamCapture = (props) => {
     const ViewPhoto = (props) => {
       const photoSrc = GetPhotoSrc(props.id);
       const imageStyle = {
-        width: 383,
+        width: 100,
         height: 400,
       };
     
