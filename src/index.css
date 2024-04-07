@@ -294,3 +294,11 @@ body {
   opacity: 1;
 }
 /* End checkbox styles */
+
+.center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* 或者设定一个固定的高度 */
+}
+

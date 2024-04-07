@@ -3,7 +3,7 @@ import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import Todo from "./components/Todo";
 import { nanoid } from "nanoid";
-import MapComponent from './components/MapComponent';
+// import MyMap from './MyMap';
 
 
 
@@ -83,7 +83,9 @@ export default function App(props) {
       }
     }, []);
 
-    return [stack, setState];
+    return [stack, setState]
+      
+    ;
   }
 
   const [tasks, setTasks] = usePersistedState("tasks", []);
@@ -215,8 +217,12 @@ export default function App(props) {
     >
     {taskList}
     </ul>
+    {/* <MyMap /> */}
+    
     </div>
    );
+
+   
 
    
    return (

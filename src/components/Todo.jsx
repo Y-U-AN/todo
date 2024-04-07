@@ -3,6 +3,8 @@ import Popup from "reactjs-popup"; // For our popups
 import "reactjs-popup/dist/index.css"; // For the popups to look nicer.
 import Webcam from "react-webcam"; // For using react-webcam
 import { addPhoto, GetPhotoSrc } from "../db.jsx"; // We will need this for futher steps
+import MyMap from '../MyMap.jsx';
+
 
 
 
@@ -80,9 +82,35 @@ function Todo(props) {
         />
         <label className="todo-label" htmlFor={props.id}>
           {props.name}
-          <a href={props.location?.mapURL}>(map)</a>
+          <Popup
+            trigger={
+              <button>
+                <a href={props.location?.mapURL}>(map)</a>
+              </button>
+            }
+            modal
+            >
+            {(close) => (
+              <div className="center-content">
+                <ViewLocation id={props.id} alt={props.name} />
+              </div>
+            )}
+          </Popup>
           &nbsp; | &nbsp;
-          <a href={props.location?.smsURL}>(sms)</a>
+          <Popup
+            trigger={
+              <button>
+                <a href={props.location?.smsURL}>(sms)</a>
+              </button>
+            }
+            modal
+            >
+              {(close) => (
+              <div className="center-content">
+                
+              </div>
+            )}
+          </Popup>
           &nbsp; | &nbsp;
           {props.location && (
             <span>
@@ -138,7 +166,6 @@ function Todo(props) {
           </div>
 
         </Popup>
-
 
 
       </div>
@@ -247,16 +274,24 @@ const WebcamCapture = (props) => {
       };
     
       return (
-        <div>
+        <div className="center-content">
           {photoSrc ? (
             <img src={photoSrc} alt={`Photo of ${props.name}`} />
           ) : (
-            <p>No photo available.</p>
+            <p>This side is empty</p>
           )}
         </div>
+
       );
     };
     
+    const ViewLocation = () => {
+      return (
+        <div>
+          <MyMap />
+        </div>
+      );
+    };
     
 
 export default Todo;
