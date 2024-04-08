@@ -51,10 +51,11 @@ function MyMap() {
 
   return (
     <div>
-      <div id="map" style={{ height: '400px', width: '520px' }} />
+      <div id="map" style={{ height: '300px', width: '300px' }} />
       {weather && (
         <div>
           <h3>Weather Information</h3>
+          <p>Location: {weather.name} </p>
           <p>Temperature: {weather.main.temp} °C</p>
           <p>Condition: {weather.weather[0].description}</p>
         </div>

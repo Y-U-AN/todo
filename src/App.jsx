@@ -223,28 +223,26 @@ export default function App(props) {
    );
 
    
-
-   
-   return (
-    <div>
-      <h1>Current Location</h1>
-      {location.latitude && location.longitude ? (
-        <p>
-          Latitude: {location.latitude}, Longitude: {location.longitude}
-        </p>
-      ) : (
-        <p>Locating...</p>
-      )}
-    </div>
-  );
+  //  return (
+  //   <div>
+  //     <h1>Current Location</h1>
+  //     {location.latitude && location.longitude ? (
+  //       <p>
+  //         Latitude: {location.latitude}, Longitude: {location.longitude}
+  //       </p>
+  //     ) : (
+  //       <p>Locating...</p>
+  //     )}
+  //   </div>
+  // );
 
 
-   return (
-    <div className="todoapp stack-large">
-      {/* ... 其他组件 ... */}
-      <MapComponent location={location} />
-      {/* ... 其他组件 ... */}
-    </div>
-  );
+  //  return (
+  //   <div className="todoapp stack-large">
+  //     {/* ... 其他组件 ... */}
+  //     <MapComponent location={location} />
+  //     {/* ... 其他组件 ... */}
+  //   </div>
+  // );
   
 }
