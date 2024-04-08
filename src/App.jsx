@@ -204,45 +204,53 @@ export default function App(props) {
 
   return (
     <div className="todoapp stack-large">
-    <h1>Geo TodoMatic</h1>
-    <Form addTask={addTask} geoFindMe={geoFindMe} />{" "}
-    <div className="filters btn-group stack-exception">{filterList}</div>
-    <h2 id="list-heading" tabIndex="-1" ref={listHeadingRef}>
-    {headingText}
-    </h2>
-    <ul
-    aria-labelledby="list-heading"
-    className="todo-list stack-large stack-exception"
-    role="list"
-    >
-    {taskList}
-    </ul>
-    {/* <MyMap /> */}
-    
+      <h1>Geo TodoMatic</h1>
+      
+      {/* 显示当前位置的经纬度 */}
+      <div>
+        <h2>Current Location</h2>
+        {location.latitude && location.longitude ? (
+          <p>
+            Latitude: {location.latitude}, Longitude: {location.longitude}
+          </p>
+        ) : (
+          <p>Locating...</p>
+        )}
+      </div>
+  
+      {/* Todo 应用的表单部分 */}
+      <Form addTask={addTask} geoFindMe={geoFindMe} />
+  
+      {/* 过滤器按钮组 */}
+      <div className="filters btn-group stack-exception">{filterList}</div>
+  
+      {/* 任务列表标题 */}
+      <h2 id="list-heading" tabIndex="-1" ref={listHeadingRef}>
+        {headingText}
+      </h2>
+  
+      {/* 任务列表 */}
+      <ul
+        aria-labelledby="list-heading"
+        className="todo-list stack-large stack-exception"
+        role="list"
+      >
+        {taskList}
+      </ul>
+  
+      {/* 地图组件，如果需要可以取消注释 */}
+      {/* <MyMap /> */}
     </div>
-   );
-
-   
-  //  return (
-  //   <div>
-  //     <h1>Current Location</h1>
-  //     {location.latitude && location.longitude ? (
-  //       <p>
-  //         Latitude: {location.latitude}, Longitude: {location.longitude}
-  //       </p>
-  //     ) : (
-  //       <p>Locating...</p>
-  //     )}
-  //   </div>
-  // );
+  );
+  
 
 
-  //  return (
-  //   <div className="todoapp stack-large">
-  //     {/* ... 其他组件 ... */}
-  //     <MapComponent location={location} />
-  //     {/* ... 其他组件 ... */}
-  //   </div>
-  // );
+   return (
+    <div className="todoapp stack-large">
+      {/* ... 其他组件 ... */}
+      <MapComponent location={location} />
+      {/* ... 其他组件 ... */}
+    </div>
+  );
   
 }
