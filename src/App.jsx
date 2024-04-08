@@ -206,17 +206,7 @@ export default function App(props) {
     <div className="todoapp stack-large">
       <h1>Geo TodoMatic</h1>
       
-      {/* 显示当前位置的经纬度 */}
-      <div>
-        <h2>Current Location</h2>
-        {location.latitude && location.longitude ? (
-          <p>
-            Latitude: {location.latitude}, Longitude: {location.longitude}
-          </p>
-        ) : (
-          <p>Locating...</p>
-        )}
-      </div>
+      
   
       {/* Todo 应用的表单部分 */}
       <Form addTask={addTask} geoFindMe={geoFindMe} />
@@ -245,12 +235,5 @@ export default function App(props) {
   
 
 
-   return (
-    <div className="todoapp stack-large">
-      {/* ... 其他组件 ... */}
-      <MapComponent location={location} />
-      {/* ... 其他组件 ... */}
-    </div>
-  );
-  
+
 }

@@ -229,6 +229,17 @@ const WebcamCapture = (props) => {
 
     return (
       <>
+      {/* 显示当前位置的经纬度 */}
+      <div>
+        <h2>Current Location</h2>
+        {location.latitude && location.longitude ? (
+          <p>
+            Latitude: {location.latitude}, Longitude: {location.longitude}
+          </p>
+        ) : (
+          <p>Locating...</p>
+        )}
+      </div>
         {!imgSrc &&  (
           
           <Webcam
