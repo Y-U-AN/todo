@@ -91,7 +91,7 @@ function Todo(props) {
             modal
             >
             {(close) => (
-              <div className="center-content popup-content" style={{ height: 100, width: 100 }}>
+              <div className="center-content popup-content" style={{ height: 500, width: 500 }}>
                 <ViewLocation id={props.id} alt={props.name} />
               </div>
             )}
