@@ -236,9 +236,7 @@ const WebcamCapture = (props) => {
           <p>
             Latitude: {location.latitude}, Longitude: {location.longitude}
           </p>
-        ) : (
-          <p>Locating...</p>
-        )}
+        ) : null}
       </div>
         {!imgSrc &&  (
           
@@ -303,6 +301,9 @@ const WebcamCapture = (props) => {
         </div>
       );
     };
+
+     
+ 
     
 
 export default Todo;

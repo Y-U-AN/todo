@@ -55,38 +55,18 @@ export default function App(props) {
     const error = () => {
     console.log("Unable to retrieve your location");
     };
-  function usePersistedState(key, defaultValue) {
-    const [stack, setState] = useState(
-      () => JSON.parse(localStorage.getItem(key)) || defaultValue,
-    );
-
-    useEffect(() => {
-      // 检查浏览器是否支持 Geolocation API
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          // 成功回调
-          (position) => {
-            setLocation({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            });
-          },
-          // 错误回调
-          (error) => {
-            console.error("Error Code = " + error.code + " - " + error.message);
-            // 可以根据需要设置默认位置或处理错误
-          }
-        );
-      } else {
-        console.log('Geolocation is not supported by this browser.');
-        // 浏览器不支持 Geolocation API 时的处理
-      }
-    }, []);
-
-    return [stack, setState]
-      
-    ;
-  }
+    
+    function usePersistedState(key, defaultValue) {
+      const [stack, setState] = useState(
+        () => JSON.parse(localStorage.getItem(key)) || defaultValue,
+      );
+  
+      useEffect(() => {
+        localStorage.setItem(key, JSON.stringify(stack));
+      }, [key, stack]);
+  
+      return [stack, setState];
+    }
 
   const [tasks, setTasks] = usePersistedState("tasks", []);
   // const [tasks, setTasks] = useState(props.tasks);
@@ -204,36 +184,23 @@ export default function App(props) {
 
   return (
     <div className="todoapp stack-large">
-      <h1>Geo TodoMatic</h1>
-      
-      
-  
-      {/* Todo 应用的表单部分 */}
-      <Form addTask={addTask} geoFindMe={geoFindMe} />
-  
-      {/* 过滤器按钮组 */}
-      <div className="filters btn-group stack-exception">{filterList}</div>
-  
-      {/* 任务列表标题 */}
-      <h2 id="list-heading" tabIndex="-1" ref={listHeadingRef}>
-        {headingText}
-      </h2>
-  
-      {/* 任务列表 */}
-      <ul
-        aria-labelledby="list-heading"
-        className="todo-list stack-large stack-exception"
-        role="list"
-      >
-        {taskList}
-      </ul>
-  
-      {/* 地图组件，如果需要可以取消注释 */}
-      {/* <MyMap /> */}
+    <h1>Geo TodoMatic</h1>
+    <Form addTask={addTask} geoFindMe={geoFindMe} />{" "}
+    <div className="filters btn-group stack-exception">{filterList}</div>
+    <h2 id="list-heading" tabIndex="-1" ref={listHeadingRef}>
+    {headingText}
+    </h2>
+    <ul
+    aria-labelledby="list-heading"
+    className="todo-list stack-large stack-exception"
+    role="list"
+    >
+    {taskList}
+    </ul>
+    {/* <MyMap /> */}
+    
     </div>
-  );
+   );
+
   
-
-
-
 }
