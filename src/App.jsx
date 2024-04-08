@@ -3,9 +3,6 @@ import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import Todo from "./components/Todo";
 import { nanoid } from "nanoid";
-// import MyMap from './MyMap';
-
-
 
 function usePrevious(value) {
   const ref = useRef(null);
@@ -24,49 +21,43 @@ const FILTER_MAP = {
 const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 export default function App(props) {
-
-  const [location, setLocation] = useState({ latitude: null, longitude: null });
-
-
   const geoFindMe = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setLocation({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      });
-    }, () => {
-      console.log("无法获取您的位置");
-    });
+    if (!navigator.geolocation) {
+      console.log("Geolocation is not supported by your browser");
+    } else {
+      console.log("Locating…");
+      navigator.geolocation.getCurrentPosition(success, error);
+    }
   };
-  
-
-    const success = (position) => {
+  const success = (position) => {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
     console.log(latitude, longitude);
     console.log(`Latitude: ${latitude}°, Longitude: ${longitude}°`);
-    console.log(`Try here: https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`);
+    console.log(
+      `Try here: https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`,
+    );
     locateTask(lastInsertedId, {
-    latitude: latitude,
-    longitude: longitude,
-    error: "",
+      latitude: latitude,
+      longitude: longitude,
+      error: "",
     });
-    };
-    const error = () => {
+  };
+  const error = () => {
     console.log("Unable to retrieve your location");
-    };
-    
-    function usePersistedState(key, defaultValue) {
-      const [stack, setState] = useState(
-        () => JSON.parse(localStorage.getItem(key)) || defaultValue,
-      );
-  
-      useEffect(() => {
-        localStorage.setItem(key, JSON.stringify(stack));
-      }, [key, stack]);
-  
-      return [stack, setState];
-    }
+  };
+
+  function usePersistedState(key, defaultValue) {
+    const [stack, setState] = useState(
+      () => JSON.parse(localStorage.getItem(key)) || defaultValue,
+    );
+
+    useEffect(() => {
+      localStorage.setItem(key, JSON.stringify(stack));
+    }, [key, stack]);
+
+    return [stack, setState];
+  }
 
   const [tasks, setTasks] = usePersistedState("tasks", []);
   // const [tasks, setTasks] = useState(props.tasks);
@@ -108,27 +99,15 @@ export default function App(props) {
     console.log("locate Task", id, " before");
     console.log(location, tasks);
     const locatedTaskList = tasks.map((task) => {
-    // if this task has the same ID as the edited task
-    if (id === task.id) {
-    //
-    return { ...task, location: location };
-    }
-    return task;
+      // if this task has the same ID as the edited task
+      if (id === task.id) {
+        //
+        return { ...task, location: location };
+      }
+      return task;
     });
     console.log(locatedTaskList);
     setTasks(locatedTaskList);
-   }
-
-  function photoedTask(id) {
-    console.log("photoedTask", id);
-    const photoedTaskList = tasks.map((task) => {
-      if (id === task.id) {
-        return { ...task, photo: true };
-      }
-        return task;
-    });
-    console.log(photoedTaskList);
-    setTasks(photoedTaskList);
   }
 
   const taskList = tasks
@@ -139,11 +118,9 @@ export default function App(props) {
         name={task.name}
         completed={task.completed}
         key={task.id}
-        location={task.location}
         latitude={task.location.latitude}
         longitude={task.location.longitude}
         toggleTaskCompleted={toggleTaskCompleted}
-        photoedTask={photoedTask}
         deleteTask={deleteTask}
         editTask={editTask}
       />
@@ -161,14 +138,14 @@ export default function App(props) {
   function addTask(name) {
     const id = "todo-" + nanoid();
     const newTask = {
-    id: id,
-    name: name,
-    completed: false,
-    location: { latitude: "##", longitude: "##", error: "##" },
+      id: id,
+      name: name,
+      completed: false,
+      location: { latitude: "##", longitude: "##", error: "##" },
     };
     setLastInsertedId(id);
     setTasks([...tasks, newTask]);
-    }
+  }
 
   const tasksNoun = taskList.length !== 1 ? "tasks" : "task";
   const headingText = `${taskList.length} ${tasksNoun} remaining`;
@@ -184,23 +161,19 @@ export default function App(props) {
 
   return (
     <div className="todoapp stack-large">
-    <h1>Geo TodoMatic</h1>
-    <Form addTask={addTask} geoFindMe={geoFindMe} />{" "}
-    <div className="filters btn-group stack-exception">{filterList}</div>
-    <h2 id="list-heading" tabIndex="-1" ref={listHeadingRef}>
-    {headingText}
-    </h2>
-    <ul
-    aria-labelledby="list-heading"
-    className="todo-list stack-large stack-exception"
-    role="list"
-    >
-    {taskList}
-    </ul>
-    {/* <MyMap /> */}
-    
+      <h1>Geo TodoMatic</h1>
+      <Form addTask={addTask} geoFindMe={geoFindMe} />{" "}
+      <div className="filters btn-group stack-exception">{filterList}</div>
+      <h2 id="list-heading" tabIndex="-1" ref={listHeadingRef}>
+        {headingText}
+      </h2>
+      <ul
+        aria-labelledby="list-heading"
+        className="todo-list stack-large stack-exception"
+        role="list"
+      >
+        {taskList}
+      </ul>
     </div>
-   );
-
-  
+  );
 }
