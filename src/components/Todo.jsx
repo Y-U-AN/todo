@@ -112,6 +112,7 @@ function Todo(props) {
             )}
           </Popup>
           &nbsp; | &nbsp;
+          {/* 显示坐标的部分 */}
           {props.location && (
             <span>
               (Lat: {props.location.latitude}, Long: {props.location.longitude})
@@ -130,7 +131,7 @@ function Todo(props) {
         >
           Edit <span className="visually-hidden">{props.name}</span>
         </button>
-
+  
         <Popup
           trigger={
             <button type="button" className="btn">
@@ -164,13 +165,11 @@ function Todo(props) {
           <div>
             <ViewPhoto id={props.id} alt={props.name} />
           </div>
-
         </Popup>
-
-
       </div>
     </div>
   );
+  
 
   useEffect(() => {
     if (!wasEditing && isEditing) {
@@ -229,15 +228,6 @@ const WebcamCapture = (props) => {
 
     return (
       <>
-      {/* 显示当前位置的经纬度 */}
-      <div>
-        <h2>Current Location</h2>
-        {location.latitude && location.longitude ? (
-          <p>
-            Latitude: {location.latitude}, Longitude: {location.longitude}
-          </p>
-        ) : null}
-      </div>
         {!imgSrc &&  (
           
           <Webcam
@@ -301,9 +291,6 @@ const WebcamCapture = (props) => {
         </div>
       );
     };
-
-     
- 
     
 
 export default Todo;

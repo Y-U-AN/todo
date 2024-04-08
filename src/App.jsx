@@ -111,20 +111,20 @@ export default function App(props) {
   }
 
   const taskList = tasks
-    ?.filter(FILTER_MAP[filter])
-    .map((task) => (
-      <Todo
-        id={task.id}
-        name={task.name}
-        completed={task.completed}
-        key={task.id}
-        latitude={task.location.latitude}
-        longitude={task.location.longitude}
-        toggleTaskCompleted={toggleTaskCompleted}
-        deleteTask={deleteTask}
-        editTask={editTask}
-      />
-    ));
+  ?.filter(FILTER_MAP[filter])
+  .map((task) => (
+    <Todo
+      id={task.id}
+      name={task.name}
+      completed={task.completed}
+      key={task.id}
+      location={task.location} // 直接传递 location 对象
+      toggleTaskCompleted={toggleTaskCompleted}
+      deleteTask={deleteTask}
+      editTask={editTask}
+    />
+  ));
+
 
   const filterList = FILTER_NAMES.map((name) => (
     <FilterButton
